@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     
     //record the state of the app,what question are we in
     var questionNum : Int = 0
+    var score:Int = 0
     
     
     @IBOutlet weak var questionLabel: UILabel!
@@ -26,8 +27,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let firstQuestion = allQuestions.list[0]
-        questionLabel.text = firstQuestion.questionText
+        nextQuestion()
     }
 
     //this method will called when the answer been clicked
@@ -46,7 +46,10 @@ class ViewController: UIViewController {
     
     
     func updateUI() {
-      
+        //need to update score text, progress bar, question number
+        scoreLabel.text = "Score: " + String(score)
+        progressLabel.text = String(questionNum+1) + "/13"
+        progressBar.frame.size.width = (view.frame.size.width) / 13 * CGFloat(questionNum + 1)
     }
     
 
@@ -54,9 +57,23 @@ class ViewController: UIViewController {
         
         if(questionNum < allQuestions.list.count){
             questionLabel.text = allQuestions.list[questionNum].questionText
+            updateUI()
         } else {
-            print("end of quiz")
-            questionNum = 0
+            
+            //alert goes here
+                //initiate the alert box
+            let alert = UIAlertController(title: "Awesome",
+                                          message: "You have finish all the quiz, do you want to start over?",
+                                          preferredStyle: .alert)
+            
+                //make an action
+            let restartAction = UIAlertAction(title: "Restart", style: .default, handler: {(UIAlertAction) in
+                self.startOver()
+            })
+            
+            //add the action to the alert
+            alert.addAction(restartAction)
+            present(alert,animated: true, completion: nil)
         }
     }
     
@@ -66,14 +83,18 @@ class ViewController: UIViewController {
         
         if correctAnswer == pickedAnswer {
             print("you got it.")
+            score += 1
         } else {
             print("wrong...")
         }
     }
     
-    
+    //this fucntion will start over the quiz
     func startOver() {
-       
+        questionNum = 0
+        score = 0
+        nextQuestion()
+        
     }
     
 
