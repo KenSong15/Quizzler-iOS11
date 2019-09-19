@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     let allQuestions = QuestionBank()
     var pickedAnswer : Bool = false
     
+    //record the state of the app,what question are we in
+    var questionNum : Int = 0
+    
     
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -37,6 +40,8 @@ class ViewController: UIViewController {
         
         //check the answer is correct
         checkAnswer()
+        questionNum += 1
+        questionLabel.text = allQuestions.list[questionNum].questionText
     }
     
     
@@ -51,9 +56,9 @@ class ViewController: UIViewController {
     
     
     func checkAnswer() {
-        let expectedAns = allQuestions.list[0].answer
+        let correctAnswer = allQuestions.list[questionNum].answer
         
-        if expectedAns == pickedAnswer {
+        if correctAnswer == pickedAnswer {
             print("you got it.")
         } else {
             print("wrong...")
