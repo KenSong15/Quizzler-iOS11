@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    //Place your instance variables here
+    let allQuestions = QuestionBank()
+    var pickedAnswer : Bool = false
     
     
     @IBOutlet weak var questionLabel: UILabel!
@@ -18,14 +19,24 @@ class ViewController: UIViewController {
     @IBOutlet var progressBar: UIView!
     @IBOutlet weak var progressLabel: UILabel!
     
+    //this method will fire when the storyboard load
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let firstQuestion = allQuestions.list[0]
+        questionLabel.text = firstQuestion.questionText
     }
 
-
+    //this method will called when the answer been clicked
     @IBAction func answerPressed(_ sender: AnyObject) {
-  
+        if(sender.tag == 1){
+            pickedAnswer = true
+        } else {
+            pickedAnswer = false
+        }
+        
+        //check the answer is correct
+        checkAnswer()
     }
     
     
@@ -40,7 +51,13 @@ class ViewController: UIViewController {
     
     
     func checkAnswer() {
+        let expectedAns = allQuestions.list[0].answer
         
+        if expectedAns == pickedAnswer {
+            print("you got it.")
+        } else {
+            print("wrong...")
+        }
     }
     
     

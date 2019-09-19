@@ -8,7 +8,7 @@
 
 import Foundation
 
-//this is the data model on this app
+//this is the question model on this app
 class Question{
     let questionText : String
     let answer : Bool
